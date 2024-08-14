@@ -8,11 +8,12 @@ Route::get('', function () {
 });
 
 Route::get('jobs', function () {
-    $jobs =  Job::all();
+    $jobs =  Job::with('employer')->simplePaginate(6);
     return view('jobs', compact('jobs'));
 });
 
 Route::get('jobs/{id}', function ($id) {
     $job = Job::find($id);
+    if (!$job) {abort(404);}
     return view('job', ['job' => $job]);
 });
